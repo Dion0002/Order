@@ -1,0 +1,183 @@
+{% extends 'users_page/base_user.html' %}
+
+
+{% block content %}
+
+
+
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<style>
+  .tabcontent {
+    display: none;
+  }
+
+  .tabcontent .active {
+    display: block;
+    display: show;
+  }
+
+  .my-custom-scrollbar {
+    position: relative;
+    height: 500px;
+    overflow: auto;
+  }
+</style>
+
+
+<div id="content" , name="content" , class="main">
+  <div style="float:right">
+    <div>
+      <h1>Welcome {{user.username}}</h1>
+    </div>
+  </div>
+
+  <div class="row justify-content-center" name="Monday">
+
+    <div class="center">
+      <h2>Previous Orders</h2>
+      <br>
+
+      <nav class="multiTabs">
+        <a class="btn btn-primary mr-2" href="javascript:void(0)" data-trigger='content1'>Monday</a>
+        <a class="btn btn-primary mr-2" href="javascript:void(0)" data-trigger='content2'>Tuesday</a>
+        <a class="btn btn-primary mr-2" href="javascript:void(0)" data-trigger='content3'>Wendsday</a>
+        <a class="btn btn-primary mr-2" href="javascript:void(0)" data-trigger='content4'>Thursday</a>
+        <a class="btn btn-primary mr-2" href="javascript:void(0)" data-trigger='content5'>Friday</a>
+      </nav>
+      <br>
+      <div class="table-wrapper-scroll-y my-custom-scrollbar">
+      
+        <div class=" tabcontent card card-body " id="content1">
+          <h2>Monday</h2>
+          <table class="table">
+            <tr>
+              <th>Meal</th>
+              <th>Price</th>
+              <th>Date Ordered</th>
+            </tr>
+            {% for i in previous_order_m %}
+            <tr>
+              <td>{{i.name}}</td>
+              <td>{{i.price}}</td>
+              <td>{{i.order_date}}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+
+        <div class=" tabcontent card card-body " id="content2">
+          <h2>Tuesday</h2>
+          <table class="table">
+            <tr>
+              <th>Meal</th>
+              <th>Price</th>
+              <th>Date Ordered</th>
+            </tr>
+            {% for i in previous_order_tu %}
+            <tr>
+              <td>{{i.name}}</td>
+              <td>{{i.price}}</td>
+              <td>{{i.order_date}}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+
+        <div class=" tabcontent card card-body " id="content3">
+          <h2>Wendsday</h2>
+          <table class="table">
+            <tr>
+              <th>Meal</th>
+              <th>Price</th>
+              <th>Date Ordered</th>
+            </tr>
+            {% for i in previous_order_we %}
+            <tr>
+              <td>{{i.name}}</td>
+              <td>{{i.price}}</td>
+              <td>{{i.order_date}}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+
+        <div class="tabcontent card card-body " id="content4">
+          <h2>Thursday</h2>
+          <table class="table">
+            <tr>
+              <th>Meal</th>
+              <th>Price</th>
+              <th>Date Ordered</th>
+            </tr>
+            {% for i in previous_order_th %}
+            <tr>
+              <td>{{i.name}}</td>
+              <td>{{i.price}}</td>
+              <td>{{i.order_date}}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+
+        <div class="tabcontent card card-body " id="content5">
+          <h2>Friday</h2>
+          <table class="table">
+            <tr>
+              <th>Meal</th>
+              <th>Price</th>
+              <th>Date Ordered</th>
+            </tr>
+            {% for i in previous_order_f %}
+            <tr>
+              <td>{{i.name}}</td>
+              <td>{{i.price}}</td>
+              <td>{{i.order_date}}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  var currentTab = 1;
+  $("#contetn1").show();
+
+  $(document).on('click', 'nav.multiTabs>a',
+    function () {
+      var TabId = $(this).attr('data-trigger');
+      $('div#' + TabId + ' ').show();
+
+      console.log("Current Tab: " + TabId);
+      currentTab = parseInt(TabId.replace("content", ""));
+
+      $('.tabcontent:not(#' + TabId + ')').hide()
+
+    });
+
+  function next() {
+    if (currentTab < 5) {
+      $(".tabcontent").hide();
+      currentTab++;
+      $("#content" + (currentTab)).show();
+    }
+  }
+
+  function prev() {
+    if (currentTab > 1) {
+      $(".tabcontent").hide();
+      currentTab--;
+      $("#content" + (currentTab)).show();
+    }
+  }
+</script>
+
+
+{% endblock %}

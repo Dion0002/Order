@@ -1,0 +1,33 @@
+{% extends 'users/base.html'%}
+
+{% block content %}
+
+
+
+<style>
+    #id_long_desc {
+    width: 300px;
+    height: 200px;
+}
+</style>
+<div id="content" , name="content" , class="main">
+    <div class="row justify-content-center">
+        <div class="center">
+
+            <div class="row justify-content-center">
+                <div class="center">
+                    <h2>Add New Meal</h2>
+                </div>
+            </div>
+            <br>
+            <div class="long_desc">
+                <form action="" method="post" >
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <input type="submit" value="Add New Meal">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

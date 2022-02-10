@@ -1,0 +1,126 @@
+
+{% extends 'users_page/base_user.html' %}
+
+
+{% block content %}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+<style>
+    .orderstyle{
+        padding-left: 85vh;
+    }
+</style>
+
+<div style="text-align: center;">
+    <h2>Order</h2>
+        <br>
+        <br>
+
+    </div>
+    <div class="orderstyle">
+        
+        <div class="row">
+      
+                <div class="row">
+                    <div style="padding-right: 100px;" class="column" id="food_name">
+                        <h3>Meal</h3>
+
+                    </div>
+                    <div style="padding-right: 100px;" class="column" id="price">
+                        <h3>Price</h3>
+
+                    </div>
+                    <div class="column" id="rm">
+
+                    </div>
+                </div>
+
+
+                
+            </div>
+            <h2 id="total">Total : </h2>
+            <button style="padding-right: 80x;" type="submit" class="btn-successs" onclick="Submitorder()">Submit</button>
+        </div>
+        
+    </div>
+
+    <script>
+
+        var food_nam = document.querySelector("#food_name");
+        var price = document.querySelector("#price");
+        var bill = document.querySelector("#total");
+        var rm = document.querySelector("#rm");
+
+
+
+        function userorder() {
+            var orders = JSON.parse(localStorage.getItem('order'));
+            var total = localStorage.getItem('total');
+            var OrderList = orders.length;
+
+
+            food_nam.innerHTML = '<h3>Meal</h3>';
+            price.innerHTML = '<h3>Price</h3>';
+            rm.innerHTML = '<h3><br></h3>';
+
+            for (let i = 0; i < OrderList; i++) {
+                rm.innerHTML += '<h4><button class="del"  onclick="removeOrderMeal(' + i + ')">Remove</button></h4>';
+                food_nam.innerHTML += '<h4>' + orders[i][0] + '</4>';
+                price.innerHTML += '<h4>' + orders[i][1] + '</4>';
+            }
+            bill.innerHTML = 'Total: ' + total + ' $';
+        }
+
+        userorder();
+
+        function removeOrderMeal(n) {
+            var orders = JSON.parse(localStorage.getItem('order'));
+            var total = localStorage.getItem('total');
+            total = Number(total) - Number(orders[n][1]);
+            orders.splice(n, 1);
+            localStorage.setItem('order', JSON.stringify(orders));
+            localStorage.setItem('total', total);
+            userorder();
+
+        }
+
+
+        function Submitorder() {
+
+            var orders = localStorage.getItem('order');
+            var total = localStorage.getItem('total');
+
+            if (total <= 5) {
+                var ur = '/meals/order/';
+                var orderData = {};
+                orderData['order'] = orders;
+                orderData['total'] = total;
+
+                $.ajax({
+                    url: ur,
+                    type: "POST",
+                    data: orderData,
+                    success: function (data) {
+                        window.location.replace('/meals/success')
+                        localStorage.setItem('order', JSON.stringify([]));
+                        localStorage.setItem('total', 0);
+                    }
+
+                })
+            }
+            else {
+                alert("Remove a meal because you don't have enough money");
+            }
+        }
+
+
+
+    </script>
+
+</div>
+    
+
+{% endblock %}

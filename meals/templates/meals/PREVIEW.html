@@ -1,0 +1,41 @@
+{% extends 'users_page/base_user.html' %}
+
+
+{% block content %}
+<div id="content" , name="content" , class="main">
+    <div class="row justify-content-center">
+        <div class="center">
+
+<div class="row justify-content-center">
+    <div class="center">
+        <h2> Menu</h2>
+    </div>
+</div>
+<br>
+<div class="row">
+
+        <div class="card card-body">
+            <table class="table">
+                <tr>
+                    <th>Meal</th>
+                    <th>Category</th>
+                    <th>Descriptions</th>
+                    <th>Price</th>
+                </tr>
+                {% for meal in week_meal %}
+                <tr>
+                    <td id="meal{{ meal.id }}">{{meal.Food_name}}</td>
+                    <td id="mealCat{{ meal.id }}">{{meal.Category}}</td>
+                    <td id="mealDes{{ meal.id }}">{{meal.Descriptions}}</td>
+                    <td id="mealPrice{{ meal.id }}">{{meal.Price}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+      </div>
+    </div>
+
+</div>
+</div>
+{% endblock %}

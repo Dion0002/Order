@@ -1,0 +1,22 @@
+{% extends 'users/base.html'%}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div id="content" , name="content" , class="main">
+    <div class="row justify-content-center">
+        <div class="center">
+
+            <div class="row justify-content-center"><h2>Update User</h2></div>
+            <br>
+            <div class="row justify-content-center">
+                <div class="col-10">
+                    {% crispy form %}
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+{% endblock %}

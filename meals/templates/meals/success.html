@@ -1,0 +1,41 @@
+{% extends 'users_page/base_user.html' %}
+
+
+{% block content %}
+<div id="content" , name="content" , class="main">
+    <div class="row justify-content-center">
+        <div class="center">
+
+            <div style="text-align: center;">
+                <br>
+                <br>
+                <h2>Your order was saved</h2>
+             <br>
+                
+                <div class="card card-body">
+                    <table class="table">
+                       
+                        <tr>
+                            <th>Meal</th>
+                            <th>Price</th>
+                        </tr>
+                        <tr>
+                            {% for item in items %}
+                            <td>{{ item.name }} </td>
+                            <td>{{ item.price }}</td>
+                            
+                        </tr>
+                        {% endfor %}
+                    </table>
+                 
+                    <br>
+                    <h4> Total : {{ bill }} $</h4>
+
+                    <h4><a href="{% url 'meal:week-meal' %}"> New Order</a></h4>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}

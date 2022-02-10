@@ -1,0 +1,59 @@
+{% extends 'users/base.html'%}
+
+{% block content %}
+
+
+
+
+<style>
+    .my-custom-scrollbar {
+        position: relative;
+        height: 500px;
+        overflow: auto;
+    }
+</style>
+
+
+
+<div id="content" , name="content" , class="main">
+    <div class="row justify-content-center">
+        <div class="center">
+
+
+            <br>
+            <div class="row justify-content-center">
+                <div class="center">
+                    <h2>Order History </h2>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                    <div class="card card-body">
+                        <table class="table">
+                            <tr>
+                                <th>User</th>
+                                <th>Bill</th>
+                                <th>Order Number</th>
+                                <th>Date Ordered</th>
+                            </tr>
+
+                            {% for order in orders %}
+
+                            <tr>
+                                <td>{{order.customer}}</td>
+                                <td>{{order.bill}}</td>
+                                <td>{{order.number}}</td>
+                                <td>{{order.date}}</td>
+                                <td><a href="{% url 'meal:user-order' order.id %}">View</a></td>
+                            </tr>
+                            {% endfor %}
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

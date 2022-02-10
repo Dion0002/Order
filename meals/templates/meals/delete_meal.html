@@ -1,0 +1,30 @@
+{% extends 'users/base.html'%}
+
+{% block content %}
+
+<div id="content" , name="content" , class="main">
+	<div class="row justify-content-center">
+		<div class="center">
+
+			<br>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="card card-body">
+
+
+						<p>Are you sure you want to delete "{{meal}}"?</p>
+
+						<form action="{% url 'meal:delete-meal' meal.id  %}" method="POST">
+
+							{% csrf_token %}
+							<a class="btn btn-warning" href="{% url 'meal:all-meal' %}">Cancel</a>
+
+							<input class="btn btn-danger" type="submit" name="Confirm">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

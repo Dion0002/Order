@@ -1,0 +1,192 @@
+{% extends 'users_page/base_user.html' %}
+
+
+{% block content %}
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(function () {
+            $(document).on("click", ".checkRow", function () {
+                var getselectedvalues = $(".maintable input:checked").parents("tr").clone().appendTo($(".OrderTable tbody").add(getselectedvalues));
+            })
+        })
+
+
+        // $(function(){
+        //     $(document).on("click",".deleteorder",function(){
+        //        var deleteorderfromtable=$(".OrderTable  input:checked") .parents("tr").remove();
+        //     })
+
+        // })
+
+        var orders = JSON.parse(localStorage.getItem('order'))
+        var total = localStorage.getItem('total');
+
+        if (orders == null || orders == undefined) {
+            localStorage.setItem('order', JSON.stringify([]));
+            orders = JSON.parse(localStorage.getItem('order'))
+        }
+
+        if (total == null || total == undefined) {
+            
+            
+            
+            total = JSON.parse(localStorage.getItem('total'))
+        }
+
+
+    </script>
+
+
+    <style>
+.content-center {
+  margin: auto;
+  width: 60%;
+  padding-left: 30vh;
+  padding-top: 100px;
+  
+}
+
+.next{
+    margin: auto;
+    padding-top: 0px;
+    padding-left: 100vh;
+}
+
+.menu{
+    padding-top: 0px;
+    padding-left: 100vh;
+}
+
+    </style>
+</head>
+
+<body>
+<div class="menu">
+    <div class="center">
+        <h2> {% now "l" %} Menu</h2>
+    </div>
+
+</div>
+
+<div class="next">
+    <h2><a href="{% url 'meal:preview'  %}">Next Day menu</a></h2>
+</div>
+<br>
+
+<div class="content-center">
+    <div class="row">
+
+        <div class="col-md-7">
+            <div class="card card-body">
+                <table class="maintable">
+                    <tr>
+                        <th>Meal</th>
+                        <th>Category</th>
+                        <th>Descriptions</th>
+                        <th>Price</th>
+                        <th>Add</th>
+
+                    </tr>
+                    {% for meal in week_meal %}
+                    <tr>
+                        <td id="meal{{ meal.id }}">{{meal.Food_name}}</td>
+                        <td id="mealCat{{ meal.id }}">{{meal.Category}}</td>
+                        <td id="mealDes{{ meal.id }}">{{meal.Descriptions}}</td>
+                        <td id="mealPrice{{ meal.id }}">{{meal.Price}}</td>
+                        <td>
+                            <button class="btn-info" onclick="addMeal('{{meal.id}}')">Add Meal</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+
+                <a class="checkRow"  style="height:40px;width:500px" class="btn btn-primary"href="{% url 'meal:order' %}">Save Order</a>
+
+            </div>
+        </div>
+
+        <div class="col-mid-5">
+            <h2>Order list</h2>
+            <div class="card card-body">
+
+                <ul id="mealorder"></ul>
+
+                <h2 id="mealtotal">Total: 0 $</h2>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+
+                var mealorder = document.querySelector('#mealorder');
+                var mealtotal = document.querySelector('#mealtotal');
+
+                function addMeal(mid) {
+                    //get meal name
+                    mealId = '#meal' + mid;
+                    // mealCat='#mealCat'+mid
+                    var Food_name = document.querySelector(mealId).innerHTML;
+                    // var Category = document.querySelector(mealCat).innerHTML;
+                    //get meal price
+                    var mealPrice = '#mealPrice' + mid;
+                    var price = document.querySelector(mealPrice).innerHTML;
+
+                    var orders = JSON.parse(localStorage.getItem('order'))
+                    var total = localStorage.getItem('total');
+                    var OrderList = orders.length;
+                    //save meals
+                    orders[OrderList] = [Food_name, price];
+                    localStorage.setItem('order', JSON.stringify(orders));
+
+                    total = Number(total) + Number(price);
+                    localStorage.setItem('total', total);
+
+                    //updating meals in order list 
+                    button = '<button class="del"  onclick="removeMeal(' + OrderList + ')">Remove</button>'
+                    mealtotal.innerHTML = 'Total:' + total + '$';
+                    mealorder.innerHTML += '<li>' + Food_name + ' ' + price + '$' + '' + button + '</li>';
+                }
+                
+
+
+                function Myorder() {
+                    var orders = JSON.parse(localStorage.getItem('order'))
+                    var total = localStorage.getItem('total');
+                    var OrderList = orders.length;
+                    mealorder.innerHTML = '';
+                   
+                    for(let i = 0; i < OrderList; i++) {
+                        button = '<button class="del"  onclick="removeMeal(' + i + ')">Remove</button>'
+                        mealorder.innerHTML += '<li>' + orders[i][0] + ' ' + orders[i][1] + '$' + ' ' + button + '</li>';
+                    }
+                    mealtotal.innerHTML = 'Total:' + total + '$';
+                }
+                Myorder();
+
+
+                function removeMeal(n) {
+                    var orders = JSON.parse(localStorage.getItem('order'))
+                    var total = localStorage.getItem('total');
+                    total = Number(total) - Number(orders[n][1]);
+                    orders.splice(n, 1);
+                    localStorage.setItem('order', JSON.stringify(orders));
+                    localStorage.setItem('total', total);
+                    Myorder();
+
+
+
+                }
+
+
+
+</script>
+
+</body>
+
+
+{% endblock %}
